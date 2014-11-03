@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+targetNamespace="http://lindat.cz/attributes" 
+xmlns:tns="http://lindat.cz/attributes" elementFormDefault="qualified">
+<element name="parsedLog">
+    <complexType>
+        <sequence>
+            <element name="lastAccess" type="dateTime"></element>
+            <element name="idps" type="tns:idpsList"></element>
+            <element name="info-skipped" type="tns:info-skipped"></element>
+            <element name="info-removed" type="tns:info-removed"></element>
+            <element name="attribute-map" type="string"></element>
+        </sequence>
+    </complexType>
+</element>
+
+    <complexType name="info-skipped">
+        <sequence>
+            <element name="value" type="string" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
+    </complexType>
+    
+    <complexType name="info-removed">
+        <sequence>
+            <element name="value" type="string" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
+    </complexType>
+    
+    <complexType name="idpsList">
+        <sequence>
+            <element name="idp" type="tns:idpType" maxOccurs="unbounded">
+            </element>
+        </sequence>
+    </complexType>
+    
+    <complexType name="idpType">
+        <sequence>
+            <element name="seenAttrLists">
+                <complexType>
+                    <sequence>
+                        <element name="list" type="tns:shibAttrList" maxOccurs="unbounded"></element>
+                    </sequence>
+                </complexType>
+            </element>
+        </sequence>
+        <attribute name="entityId" type="string"></attribute>
+        <attribute name="clarinSPF" type="boolean"></attribute>
+        <attribute name="eduGain" type="boolean"></attribute>
+        <attribute name="eduID" type="boolean"></attribute>
+    </complexType>
+    
+    <complexType name="shibAttrList">
+        <sequence>
+            <element name="firstSeen" type="dateTime"></element>
+            <element name="lastSeen" type="dateTime"></element>
+            <element name="attr" type="tns:attrType" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
+    </complexType>
+    
+    <complexType name="attrType">
+        <sequence>
+                <element name="Name" type="string"></element>
+                <element name="FriendlyName" type="string" minOccurs="0"></element>
+                <element name="NameFormat" type="string" minOccurs="0"></element>
+        </sequence>
+    </complexType>
+</schema>
+
