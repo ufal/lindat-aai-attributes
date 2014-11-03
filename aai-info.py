@@ -212,7 +212,10 @@ def iter_valid_assertion_blocks( in_files_glob, ignore_before_date, line_ftor=No
             for line in line_iter:
 
                 # already done logs
-                log_line_date = dateparser.parse( line[0:19] )
+                try:
+                    log_line_date = dateparser.parse( line[0:19] )
+                except:
+                    continue
                 if log_line_date < ignore_before_date:
                     continue
 
