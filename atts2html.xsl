@@ -338,7 +338,7 @@ text()='urn:mace:dir:attribute-def:mail'
 		<hr />
 		<h2 id="info_skipped">Skipped attributes from shibd.log</h2>
 		<ol class="table table-condensed table-striped ">
-    		<xsl:for-each select="//atts:info-skipped/value">
+    		<xsl:for-each select="//atts:info-skipped/atts:value">
             <li>
 	            <strong><xsl:value-of select="./text()" /></strong>
     		</li>
@@ -352,7 +352,7 @@ text()='urn:mace:dir:attribute-def:mail'
 		<hr />
 		<h2 id="info_skipped">Removed attributes from shibd.log</h2>
 		<ol class="table table-condensed table-striped ">
-    		<xsl:for-each select="//atts:info-removed/value">
+    		<xsl:for-each select="//atts:info-removed/atts:value">
             <li>
 	            <strong><xsl:value-of select="./text()" /></strong>
     		</li>

@@ -367,7 +367,7 @@ def parse_shibboleth_logs(env, in_files_glob, out_file):
     for k, vs in info_d.iteritems():
         info_node = env["nodes"][k]
         for v in vs:
-            n = etree.SubElement( info_node, "value" )
+            n = etree.SubElement( info_node, etree.QName( root, "value" ) )
             n.text = v
 
     xml_output = etree.tostring(

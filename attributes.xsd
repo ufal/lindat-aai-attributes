@@ -5,7 +5,7 @@ xmlns:tns="http://lindat.cz/attributes" elementFormDefault="qualified">
 <element name="parsedLog">
     <complexType>
         <sequence>
-            <element name="lastAccess" type="dateTime"></element>
+            <element name="lastAccess" type="string"></element>
             <element name="idps" type="tns:idpsList"></element>
             <element name="info-skipped" type="tns:info-skipped"></element>
             <element name="info-removed" type="tns:info-removed"></element>
@@ -38,7 +38,7 @@ xmlns:tns="http://lindat.cz/attributes" elementFormDefault="qualified">
             <element name="seenAttrLists">
                 <complexType>
                     <sequence>
-                        <element name="list" type="tns:shibAttrList" maxOccurs="unbounded"></element>
+                        <element name="list" type="tns:shibAttrList" minOccurs="0" maxOccurs="unbounded"></element>
                     </sequence>
                 </complexType>
             </element>
@@ -51,8 +51,8 @@ xmlns:tns="http://lindat.cz/attributes" elementFormDefault="qualified">
     
     <complexType name="shibAttrList">
         <sequence>
-            <element name="firstSeen" type="dateTime"></element>
-            <element name="lastSeen" type="dateTime"></element>
+            <element name="firstSeen" type="string"></element>
+            <element name="lastSeen" type="string"></element>
             <element name="attr" type="tns:attrType" minOccurs="0" maxOccurs="unbounded"></element>
         </sequence>
     </complexType>
