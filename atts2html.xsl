@@ -135,7 +135,7 @@
 			<a href="#interesting_attributes">end of the page</a>
 			there is a summary for some chosen attributes.
 		</div>
-		<h2>IDPs</h2>
+		<h2>IDPs</h2> <span class="pull-right">(updated <xsl:value-of select="//atts:lastAccess"/>)</span>
 		<span class="label label-default" style="margin: 5px">Total = <xsl:value-of select="count(//atts:idp)" /></span>
 		<span class="label label-info" style="margin: 5px">ClarinSPF = <xsl:value-of select="count(//atts:idp[@clarinSPF='true'])" /></span>
 		<span class="label label-primary" style="margin: 5px">eduGain = <xsl:value-of select="count(//atts:idp[@eduGain='true'])" /></span>

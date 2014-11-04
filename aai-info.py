@@ -410,7 +410,7 @@ def main(env, argv):
 
     # parse the log to find out new IDPs and changes in their attribute set
     parse_shibboleth_logs( env, in_files, out_file )
-
+    # this should be added only once and then delete/rename the file
     add_missing( env, out_file )
 
 
