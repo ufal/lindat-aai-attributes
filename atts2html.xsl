@@ -24,6 +24,19 @@
 		        			sum_persistent += Number($(this).html());
 				    	});
 					    jQuery('#only-total-persistent').html(sum_persistent);
+                        
+                        // mark numbers
+	    				jQuery('.mark-num').each(function() {
+                            var css = "";
+                            var val = $(this).text();
+                            if ( val === "1" ) {
+                                css = "alert alert-success";
+                            }else if ( val === "0" ) {
+                                css = "alert alert-danger";
+                            }
+                            $(this).addClass( css );
+				    	});
+
 
 					});
 					
@@ -210,14 +223,14 @@
 
 			</ul>
 		</div>
-		<table class="table table-condensed table-striped">
+		<table class="table table-condensed">
 			<tr>
 				<tr>
 					<td></td>
 					<td><strong>only eppn</strong></td>
 					<td><strong>only persistent-id</strong></td>
 					<td><strong>eppn</strong></td>
-					<td><strong>persistent-id (targeted id)</strong></td>
+					<td><strong>persistent-id</strong></td>
 					<td><strong>email</strong></td>
 				</tr>
                          <td>Totals</td>
@@ -248,7 +261,7 @@ text()='mail'
                  <xsl:for-each select="//atts:idp">
                          <tr>
                                  <td><xsl:value-of select="./@entityId"/></td>
-                                 <td class="only-one-eppn">
+                                 <td class="only-one-eppn mark-num">
                                          <xsl:choose>
                                          <xsl:when test="./atts:seenAttrLists/atts:list[last()][atts:attr/atts:Name[
     text()='urn:mace:dir:attribute-def:eduPersonPrincipalName' 
@@ -270,16 +283,16 @@ text()='mail'
     or 
     text()='urn:oid:1.3.6.1.4.1.5923.1.1.1.6'
 ]]">
-                                         1
+    1
                                          </xsl:when>
                                          <xsl:otherwise>
                                          	<xsl:attribute name="class"></xsl:attribute>
-                                         	<small class='text-danger'>both missing</small>
+                                         	<small class='alert-danger'>both missing</small>
                                          </xsl:otherwise>
                                          </xsl:choose>
                                  </td>
 
-                                 <td class="only-one-persistent">
+                                 <td class="only-one-persistent mark-num">
                                          <xsl:choose>
                                          <xsl:when test="./atts:seenAttrLists/atts:list[last()][atts:attr/atts:Name[
     text()='urn:mace:dir:attribute-def:eduPersonPrincipalName' 
@@ -301,26 +314,26 @@ text()='mail'
     or 
     text()='urn:oid:1.3.6.1.4.1.5923.1.1.1.10'
 ]]">
-                                         1
+    1
                                          </xsl:when>
                                          <xsl:otherwise>
                                          	<xsl:attribute name="class"></xsl:attribute>
-                                         	<small class='text-danger'>both missing</small>
+                                         	<small class='alert-danger'>both missing</small>
                                          </xsl:otherwise>
                                          </xsl:choose>
                                  </td>
 
-                                 <td><xsl:value-of select="count(./atts:seenAttrLists/atts:list[last()][atts:attr/atts:Name[
+                                 <td class="mark-num"><xsl:value-of select="count(./atts:seenAttrLists/atts:list[last()][atts:attr/atts:Name[
 text()='urn:mace:dir:attribute-def:eduPersonPrincipalName' 
 or
  text()='urn:oid:1.3.6.1.4.1.5923.1.1.1.6'
 ]])"/></td>
-                                 <td><xsl:value-of select="count(./atts:seenAttrLists/atts:list[last()][atts:attr/atts:Name[
+                                 <td class="mark-num"><xsl:value-of select="count(./atts:seenAttrLists/atts:list[last()][atts:attr/atts:Name[
 text()='urn:mace:dir:attribute-def:eduPersonTargetedID' 
 or 
 text()='urn:oid:1.3.6.1.4.1.5923.1.1.1.10'
 ]])"/></td>
-                         		<td><xsl:value-of select="count(./atts:seenAttrLists/atts:list[last()][atts:attr/atts:Name[
+                         		<td class="mark-num"><xsl:value-of select="count(./atts:seenAttrLists/atts:list[last()][atts:attr/atts:Name[
 text()='urn:oid:0.9.2342.19200300.100.1.3' 
 or 
 text()='urn:oid:1.2.840.113549.1.9.1'
