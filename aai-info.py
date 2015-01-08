@@ -355,7 +355,7 @@ def parse_shibboleth_logs(env, in_files_glob, out_file):
 
         else:
             last_seen = seen_idp_node.xpath(
-                "//atts:list[last()]/atts:lastSeen", namespaces=namespaces )[0]
+                "./*/atts:list[last()]/atts:lastSeen", namespaces=namespaces )[0]
             last_seen.text = unicode( log_line_date )
 
     # fill out date and attributes
