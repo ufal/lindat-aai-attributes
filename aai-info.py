@@ -324,7 +324,11 @@ def parse_shibboleth_logs(env, in_files_glob, out_file):
             in_files_glob,
             last_accessed_date,
             lambda f, l: collect_line_info( env, info_d, f, l ) ):
-        assertion_xml = etree.XML( xml.strip( ) )
+        try:
+            assertion_xml = etree.XML( xml.strip( ) )
+        except:
+            # can happen when the logs are incomplete or invalid (multiple logings?)
+            continue
         issuer = assertion_xml.xpath( "//*[local-name()='Issuer']" )[0]
         idp = issuer.text
 

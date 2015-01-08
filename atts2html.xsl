@@ -151,13 +151,13 @@
 		<h2>IDPs</h2> <span class="pull-right">(updated <xsl:value-of select="//atts:lastAccess"/>)</span>
 		<span class="label label-default" style="margin: 5px">Total = <xsl:value-of select="count(//atts:idp)" /></span>
 		<span class="label label-info" style="margin: 5px">ClarinSPF = <xsl:value-of select="count(//atts:idp[@clarinSPF='true'])" /></span>
-		<span class="label label-primary" style="margin: 5px">eduGain = <xsl:value-of select="count(//atts:idp[@eduGain='true'])" /></span>
-		<span class="label label-success" style="margin: 5px">eduId = <xsl:value-of select="count(//atts:idp[@eduID='true'])" /></span>		
+		<span class="label label-primary" style="margin: 5px">eduGAIN = <xsl:value-of select="count(//atts:idp[@eduGain='true'])" /></span>
+		<span class="label label-success" style="margin: 5px">eduID.cz = <xsl:value-of select="count(//atts:idp[@eduID='true'])" /></span>		
 		
 		<span class="label label-default" style="margin: 5px">IN ALL = <xsl:value-of select="count(//atts:idp[@eduGain='true' and @clarinSPF='true' and @eduID='true'])" /></span>
-		<span class="label label-default" style="margin: 5px">only in eduGain = <xsl:value-of select="count(//atts:idp[@eduGain='true' and not(@clarinSPF) and not(@eduID)])" /></span>
+		<span class="label label-default" style="margin: 5px">only in eduGAIN = <xsl:value-of select="count(//atts:idp[@eduGain='true' and not(@clarinSPF) and not(@eduID)])" /></span>
 		<span class="label label-default" style="margin: 5px">only in SPF = <xsl:value-of select="count(//atts:idp[not(@eduGain) and @clarinSPF='true' and not(@eduID)])" /></span>
-		<span class="label label-default" style="margin: 5px">only in eduId = <xsl:value-of select="count(//atts:idp[not(@eduGain) and not(@clarinSPF) and @eduID='true'])" /></span>
+		<span class="label label-default" style="margin: 5px">only in eduID.cz = <xsl:value-of select="count(//atts:idp[not(@eduGain) and not(@clarinSPF) and @eduID='true'])" /></span>
 		
 
 
@@ -175,10 +175,10 @@
 						<span class="label label-info pull-right" style="margin-left: 10px;">ClarinSPF</span>
 					</xsl:if>
 					<xsl:if test="./@eduGain='true'">
-						<span class="label label-primary pull-right" style="margin-left: 10px;">eduGain</span>
+						<span class="label label-primary pull-right" style="margin-left: 10px;">eduGAIN</span>
 					</xsl:if>
 					<xsl:if test="./@eduID='true'">
-						<span class="label label-success pull-right" style="margin-left: 10px;">eduId</span>
+						<span class="label label-success pull-right" style="margin-left: 10px;">eduID.cz</span>
 					</xsl:if>								        													        
 		      </h4>
 		    </div>
@@ -220,6 +220,15 @@
 					<li>urn:mace:dir:attribute-def:mail</li>
 					<li>mail</li>
 				</ul>
+				<li>affiliation*</li>
+				<ul>
+                  <li>urn:oid:1.3.6.1.4.1.5923.1.1.1.1</li>
+                  <li>urn:oid:1.3.6.1.4.1.5923.1.1.1.9</li>
+                  <li>urn:oid:1.3.6.1.4.1.5923.1.1.1.5</li>
+                  <li>urn:mace:dir:attribute-def:eduPersonScopedAffiliation</li>
+                  <li>urn:mace:dir:attribute-def:eduPersonAffiliation</li>
+                  <li>urn:mace:dir:attribute-def:eduPersonPrimaryAffiliation</li>
+				</ul>
 
 			</ul>
 		</div>
@@ -232,6 +241,7 @@
 					<td><strong>eppn</strong></td>
 					<td><strong>persistent-id</strong></td>
 					<td><strong>email</strong></td>
+					<td><strong>affiliation*</strong></td>
 				</tr>
                          <td>Totals</td>
                          <td id="only-total-eppn"></td>
@@ -257,6 +267,20 @@ text()='urn:mace:dir:attribute-def:mail'
 or 
 text()='mail'
 ]])"/></td>
+                         <td><xsl:value-of select="count(//atts:idp/atts:seenAttrLists/atts:list[last()][atts:attr/atts:Name[
+text()='urn:oid:1.3.6.1.4.1.5923.1.1.1.1' 
+or
+text()='urn:oid:1.3.6.1.4.1.5923.1.1.1.9' 
+or
+text()='urn:oid:1.3.6.1.4.1.5923.1.1.1.5' 
+or
+text()='urn:mace:dir:attribute-def:eduPersonScopedAffiliation'
+or
+text()='urn:mace:dir:attribute-def:eduPersonAffiliation'
+or
+text()='urn:mace:dir:attribute-def:eduPersonPrimaryAffiliation'
+]])"/></td>
+
                  </tr>
                  <xsl:for-each select="//atts:idp">
                          <tr>
@@ -340,6 +364,21 @@ text()='urn:oid:1.2.840.113549.1.9.1'
 or 
 text()='urn:mace:dir:attribute-def:mail'
 ]])"/></td>
+                         		<td class=""><xsl:value-of select="count(./atts:seenAttrLists/atts:list[last()][atts:attr/atts:Name[
+text()='urn:oid:1.3.6.1.4.1.5923.1.1.1.1' 
+or
+text()='urn:oid:1.3.6.1.4.1.5923.1.1.1.9' 
+or
+text()='urn:oid:1.3.6.1.4.1.5923.1.1.1.5' 
+or
+text()='urn:mace:dir:attribute-def:eduPersonScopedAffiliation'
+or
+text()='urn:mace:dir:attribute-def:eduPersonAffiliation'
+or
+text()='urn:mace:dir:attribute-def:eduPersonPrimaryAffiliation'
+
+]])"/></td>
+
                          </tr>
                  </xsl:for-each>
 		</table>
@@ -396,6 +435,7 @@ text()='urn:mace:dir:attribute-def:mail'
         </div>
        </div>
         </div>
+
 	</xsl:template>
 
 
