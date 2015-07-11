@@ -349,10 +349,9 @@ def parse_shibboleth_logs(env, in_files_glob, out_file):
                 new_name = True
                 break
 
-        if new_name:
+        if new_name or 0 == len(current_attr):
             update_idp_with_seen_attribute(
                 env, root, seen_idp_node, current_attr, log_line_date)
-
         else:
             last_seen = seen_idp_node.xpath(
                 "./*/atts:list[last()]/atts:lastSeen", namespaces=namespaces )[0]

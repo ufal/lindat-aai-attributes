@@ -11,36 +11,7 @@
 				<link rel="stylesheet" href="/common-theme-b3/public/bootstrap/js/bootstrap.min.js" />
 				<link rel="stylesheet" type="text/css" href="/common-theme-b3/public/css/lindat.css" />
                 <script src="../static/bootstrap-3.0.3/bootstrap.min.js" />
-				<script>
-					jQuery(document).ready(function(){
-    					var sum_eppn = 0;
-	    				jQuery('.only-one-eppn').each(function() {
-		        			sum_eppn += Number($(this).html());
-				    	});
-					    jQuery('#only-total-eppn').html(sum_eppn);
-
-    					var sum_persistent = 0;
-	    				jQuery('.only-one-persistent').each(function() {
-		        			sum_persistent += Number($(this).html());
-				    	});
-					    jQuery('#only-total-persistent').html(sum_persistent);
-                        
-                        // mark numbers
-	    				jQuery('.mark-num').each(function() {
-                            var css = "";
-                            var val = $(this).text();
-                            if ( val === "1" ) {
-                                css = "alert alert-success";
-                            }else if ( val === "0" ) {
-                                css = "alert alert-danger";
-                            }
-                            $(this).addClass( css );
-				    	});
-
-
-					});
-					
-				</script>
+                <script src="./aai-stats.js" />
 			</head>
 
 			<body>
@@ -52,6 +23,7 @@
 					<xsl:call-template name="info_skipped" />
 					<xsl:call-template name="info_removed" />
 					<xsl:call-template name="attribute_map" />
+					<xsl:call-template name="entity_search" />
 				</div>
                 <xsl:copy-of select="document('/common-theme-b3/footer.htm')"/>
 			</body>
@@ -389,13 +361,29 @@ text()='urn:mace:dir:attribute-def:eduPersonPrimaryAffiliation'
 		<div style="margin-top: 20px">
 		<hr />
 		<h2 id="info_skipped">Skipped attributes from shibd.log</h2>
-		<ol class="table table-condensed table-striped ">
-    		<xsl:for-each select="//atts:info-skipped/atts:value">
-            <li>
-	            <strong><xsl:value-of select="./text()" /></strong>
-    		</li>
-			</xsl:for-each>
-		</ol>
+
+       <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingOne">
+            <h2 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse-skipped" aria-expanded="false" aria-controls="collapseOne">
+                    <i class="fa fa-caret-square-o-down fa-2x"></i></a>
+            </h2>
+          </div>
+          <div id="collapse-skipped" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                <ol class="table table-condensed table-striped ">
+            		<xsl:for-each select="//atts:info-skipped/atts:value">
+                    <li>
+        	            <strong><xsl:value-of select="./text()" /></strong>
+            		</li>
+        			</xsl:for-each>
+        		</ol>
+              </div>
+          </div>
+        </div>
+       </div>
+
         </div>
 	</xsl:template>
 
@@ -403,13 +391,28 @@ text()='urn:mace:dir:attribute-def:eduPersonPrimaryAffiliation'
 		<div style="margin-top: 20px">
 		<hr />
 		<h2 id="info_skipped">Removed attributes from shibd.log</h2>
-		<ol class="table table-condensed table-striped ">
-    		<xsl:for-each select="//atts:info-removed/atts:value">
-            <li>
-	            <strong><xsl:value-of select="./text()" /></strong>
-    		</li>
-			</xsl:for-each>
-		</ol>
+
+       <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingOne">
+            <h2 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse-removed" aria-expanded="false" aria-controls="collapseOne">
+                    <i class="fa fa-caret-square-o-down fa-2x"></i></a>
+            </h2>
+          </div>
+          <div id="collapse-removed" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                <ol class="table table-condensed table-striped ">
+            		<xsl:for-each select="//atts:info-removed/atts:value">
+                        <li>
+            	            <strong><xsl:value-of select="./text()" /></strong>
+                		</li>
+        			</xsl:for-each>
+        		</ol>
+              </div>
+          </div>
+        </div>
+       </div>
         </div>
 	</xsl:template>
 
@@ -435,6 +438,50 @@ text()='urn:mace:dir:attribute-def:eduPersonPrimaryAffiliation'
         </div>
        </div>
         </div>
+	</xsl:template>
+
+	<xsl:template name="entity_search">
+		<div style="margin-top: 20px; margin-bottom:40px">
+		<hr />
+		<h2 id="entity_search">Entity search</h2>
+
+            <div class="form-inline">
+                <button type="submit" id="idp-load-idps" class="btn btn-primary">Load IdPs</button>
+                <div class="input-group">
+                    <input type="text" id="idp-input-url" class="form-control" placeholder="discofeed url"  style="min-width: 400px;" />
+                    <div class="input-group-addon">IdPs count: <span class="label label-warning" id="ids-count">0</span></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-addon">Search in</div>
+                    <select id="idp-search-in">
+                        <option value="entityID">entityID</option>
+                        <option value="DisplayNames">DisplayNames</option>
+                        <option value="Descriptions">Descriptions</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-inline idp-filter">
+                    <div class="input-group">
+                        <div class="input-group-addon">AND</div>
+                        <input type="text" class="idp-regexp form-control" value=".*" />
+                    </div>
+                    <div class="checkbox">
+                        <label><input class="checkbox-inverse" type="checkbox" />Inverse</label>
+                        <label><input class="checkbox-ignorecase" type="checkbox" />Ignore case</label>
+                    </div>
+            </div>
+
+            <div class="form-inline">
+                    <button type="submit" id="idp-search" class="btn btn-primary">Search</button>
+                    <button type="submit" id="idp-add-filter" class="btn btn-primary">Add filter</button>
+                    <button type="submit" id="idp-clear" class="btn btn-primary">Clear</button>
+                    <button type="submit" id="idp-list" class="btn btn-primary">List</button>
+            </div>
+
+    <div id="idp-result" class="row col-sm-offset-2 col-sm-8" style="min-height: 100px" >
+    </div>
+
+    </div>
 
 	</xsl:template>
 
