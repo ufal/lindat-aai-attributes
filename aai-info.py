@@ -343,6 +343,16 @@ def parse_shibboleth_logs(env, in_files_glob, out_file):
             namespaces=namespaces
         )
         current_attr = assertion_xml.xpath( "//*[local-name()='Attribute']" )
+        try:
+            special_persistent_ids = assertion_xml.xpath( "//*[@Format='urn:oasis:names:tc:SAML:2.0:nameid-format:persistent']" )
+            for pid in special_persistent_ids:
+                # see below
+                pid.attrib["Name"] = "urn:oid:1.3.6.1.4.1.5923.1.1.1.10"
+                pid.attrib["FriendlyName"] = "persistent-id"
+                pid.attrib["NameFormat"] = pid.attrib["Format"]
+            current_attr += special_persistent_ids
+        except Exception, e:
+            print "Got persistent-id in NameID but could not parse - " + repr(e)
         new_name = False
         for not_seen in current_attr:
             if not_seen.attrib["Name"] not in last_seen_names:
