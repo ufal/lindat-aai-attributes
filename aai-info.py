@@ -35,7 +35,8 @@ settings = {
 
     "federations": {
         "clarinSPF": "https://infra.clarin.eu/aai/prod_md_about_spf_idps.xml",
-        "eduGain": "http://mds.edugain.org",
+        #"eduGain": "http://mds.edugain.org",
+        "eduGain": "https://mds.edugain.org/edugain-v2.xml",
         "eduID": "https://metadata.eduid.cz/entities/eduid+idp",
     },
 
